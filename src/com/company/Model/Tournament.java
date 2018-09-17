@@ -12,7 +12,9 @@ public class Tournament {
 
     public Tournament()
     {
+
         teams = new ArrayList<>();
+        matches = new ArrayList<>();
     }
 
     /**
