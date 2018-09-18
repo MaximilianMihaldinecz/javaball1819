@@ -33,7 +33,25 @@ public class Controller {
            exitProgram();
        }
 
+       //Display the list of teams on the GUI
+        view.refreshTeamsList(model.getListOfTeamNames());
 
+    }
+
+    public void userRequestsTeamWithDrawal(String teamName)
+    {
+        ModelFunctionSuccessResponse result =  model.withDrawTeam(teamName);
+        if(result.success == false)
+        {
+            //Error during removal
+            view.displayErrorMessage(result.errormsg, true);
+            exitProgram();
+        }
+        else
+        {
+            //Successful removal. Updating the list on the GUI.
+            view.refreshTeamsList(model.getListOfTeamNames());
+        }
     }
 
 

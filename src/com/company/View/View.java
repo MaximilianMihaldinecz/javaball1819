@@ -7,16 +7,58 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class View extends JFrame implements ActionListener {
+
     Controller Ctr;
+    JLabel titleBar;
+
+    JList teamsList; //List of teams shown on the first screen
+    DefaultListModel teamsListItems; //List of teams shown on the first screen
+    JLabel teamsListLabel; //List of teams title label
+    JButton withDrawTeam; //button to withdraw team on the first screen
+
+
+    /*
+     Size and location configuration for the elements
+     */
+    final int X_Jframe = 10;
+    final int Y_Jframe = 10;
+    final int W_JFrame = 640;
+    final int H_JFrame = 600;
+    final int X_TitleBar = X_Jframe + 10;
+    final int Y_TitleBar = Y_Jframe + 10;
+    final int W_TitleBar = 600;
+    final int H_TitleBar = 100;
+    //First form (screen) elements
+    final int X_TeamsListLabel = X_TitleBar;
+    final int Y_TeamsListLabel = Y_TitleBar + 130;
+    final int W_TeamListLabel = 300;
+    final int H_TeamsListLabel = 30;
+    final int X_TeamsList = X_TeamsListLabel;
+    final int Y_TeamsList = Y_TeamsListLabel + H_TeamsListLabel + 10;
+    final int W_TeamsList = W_TeamListLabel;
+    final int H_TeamsList = 300;
+    final int X_WithDrawButton = X_TeamsList;
+    final int Y_WithDrawButton = Y_TeamsList + H_TeamsList + 20;
+    final int H_WithDrawButton = 30;
+    final int W_WithDrawButton = W_TeamsList;
+
+
 
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-
+    public void actionPerformed(ActionEvent e)
+    {
+        //Check if user tries to withdraw a team
+        if(e.getSource() == withDrawTeam)
+        {
+            withDrawEventHandler();
+        }
     }
+
 
     public View(Controller ctr) {
         Ctr = ctr;
@@ -29,13 +71,76 @@ public class View extends JFrame implements ActionListener {
     public void displayStartScreen()
     {
         //Setting window size and position and layout
-        setTitle("JavaBall");
-        setSize(1000, 600);
-        setLocation(100,100);
+        setTitle("JavaBall 2018-2019");
+        setSize(W_JFrame, H_JFrame);
+        setLocation(X_Jframe,Y_Jframe);
+        setBackground(Color.lightGray);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Disabling exit option
-
+        setLayout(null); //Setting for absolute positioning without window manager
+        setResizable(false); //Disable window resize
         setVisible(true);
+
+        //Create a titlebar with step 1 text
+        titleBar = new JLabel("Step 1/3:\nView generated matches and withdraw teams");
+        titleBar.setBounds(X_TitleBar,Y_TitleBar, W_TitleBar, H_TitleBar);
+        titleBar.setHorizontalAlignment(SwingConstants.HORIZONTAL);
+        titleBar.setBackground(Color.white);
+        titleBar.setFont(new Font("Serif", Font.PLAIN, 18));
+        titleBar.setOpaque(true);
+        titleBar.setVisible(true);
+        titleBar.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        this.add(titleBar);
+
+
+        displayFirstForm();
     }
+
+    /**
+     * Displays the GUI items for required for the first step (show teams, generated matches and withdrawal)
+     */
+    public void displayFirstForm()
+    {
+        //Create  a label for the list of teams listbox
+        teamsListLabel = new JLabel("List of teams");
+        teamsListLabel.setBounds(X_TeamsListLabel,Y_TeamsListLabel,W_TeamListLabel,H_TeamsListLabel);
+        teamsListLabel.setHorizontalAlignment(SwingConstants.HORIZONTAL);
+        teamsListLabel.setFont(new Font("Serif", Font.PLAIN, 18));
+        teamsListLabel.setVisible(true);
+        this.add(teamsListLabel);
+
+        //Create a list box for the teams
+        teamsListItems= new DefaultListModel<>();
+        teamsList = new JList(teamsListItems);
+        teamsList.setBounds(X_TeamsList,Y_TeamsList,W_TeamsList,H_TeamsList);
+        teamsList.setVisible(true);
+        this.add(teamsList);
+
+        //Create withdraw button
+        withDrawTeam = new JButton("Withdraw selected team");
+        withDrawTeam.setBounds(X_WithDrawButton, Y_WithDrawButton, W_WithDrawButton, H_WithDrawButton);
+        withDrawTeam.setVisible(true);
+        this.add(withDrawTeam);
+        withDrawTeam.addActionListener(this);
+
+
+        this.repaint();
+    }
+
+    /**
+     * Clears and reloads the list of teams on the GUI (first screen)
+     * @param listOfTeams
+     */
+    public void refreshTeamsList(ArrayList<String> listOfTeams)
+    {
+        teamsListItems.clear();
+
+        for (int i = 0; i < listOfTeams.size() ; i++) {
+            teamsListItems.addElement(listOfTeams.get(i));
+        }
+
+    }
+
+
 
 
     /**
@@ -52,6 +157,21 @@ public class View extends JFrame implements ActionListener {
         else
         {
             JOptionPane.showMessageDialog(null,msg + "\n\n" + Configurations.Error_ProgramWillExit,"Error",JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    }
+
+    /**
+     * Handling the withdraw event on UI level
+     */
+    private void withDrawEventHandler()
+    {
+        //Check if a team was selected from the list
+        if(teamsList.getSelectedValue() == null)
+        {
+            displayErrorMessage(Configurations.Error_SelectTeamFromList, false);
+        }else {
+            Ctr.userRequestsTeamWithDrawal(teamsList.getSelectedValue().toString());
         }
 
     }

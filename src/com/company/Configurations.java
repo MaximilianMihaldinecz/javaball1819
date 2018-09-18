@@ -16,6 +16,9 @@ public class Configurations {
     public static final String Error_FileRead = "Error while trying to read the following file: ";
     public static final String Error_LessThanMinimumTeams = "The file contains less than the minimum number of allowed teams.";
     public static final String Error_ProgramWillExit = "This program will exit after this message. Thank you.";
+    public static final String Error_SelectTeamFromList = "Please select a team to withdraw.";
+    public static final String Error_CantFindTeamName = "Cannot find the team with such name: ";
+    public static final String Error_NotEnoughTeams = "Not enough team remained to play the tournament. Minimum teams should be: ";
 
 
 }
