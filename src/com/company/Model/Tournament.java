@@ -163,4 +163,66 @@ public class Tournament {
 
         return result;
     }
+
+
+    public void processMatchResultsFile(ArrayList<String> rawFile)
+    {
+        if(rawFile == null)
+            return;
+
+        for (int i = 0; i < rawFile.size() ; i++)
+        {
+            String[] splitted = splitMatchResultFileRow(rawFile.get(i));
+            if(splitted != null)
+            {
+                updateMatchScore(splitted[0], Integer.parseInt(splitted[1]), splitted[2], Integer.parseInt(splitted[3]));
+            }
+        }
+    }
+
+    /**
+     *
+     * @param row A string containing a match result from a file
+     * @return returns an array of 4 elements or null (in case of error)
+     */
+    private String[] splitMatchResultFileRow(String row)
+    {
+
+        String[] result = row.trim().split(" ");
+        if(result.length != 4)
+            return null;
+        else
+            return result;
+    }
+
+    /**
+     * Updates a match's score.
+     * @param teamA name of the first team
+     * @param scoreA score of the first team
+     * @param teamB name of the second team
+     * @param scoreB score of the second team
+     * @return Returns false if could not find a match with the team names. Returns true if update successfull.
+     */
+    public boolean updateMatchScore(String teamA, int scoreA, String teamB, int scoreB)
+    {
+        boolean result = false;
+        if(matches == null)
+            return result;
+
+        for (int i = 0; i < matches.size() ; i++)
+        {
+            if(matches.get(i).hasTeams(teamA,teamB))
+            {
+                result = true;
+                matches.get(i).setScores(teamA, scoreA, teamB, scoreB);
+                break;
+            }
+        }
+        return result;
+    }
+
+
+
+
+
 }

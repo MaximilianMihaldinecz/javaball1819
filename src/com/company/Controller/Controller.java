@@ -26,7 +26,7 @@ public class Controller {
        view.displayStartScreen();
 
        //Read in the teams file
-       ModelFunctionSuccessResponse result = model.readMatchFile(Configurations.DefaultTeamsFileName);
+       ModelFunctionSuccessResponse result = model.readTeamFile(Configurations.DefaultTeamsFileName);
        if(result.success == false)
        {
            view.displayErrorMessage(result.errormsg, true);

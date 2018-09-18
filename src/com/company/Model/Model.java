@@ -15,10 +15,15 @@ public class Model
     }
 
 
-    public ModelFunctionSuccessResponse readMatchFile(String defaultTeamsFileName)
+    /**
+     * Reads and processes the file containing team names
+     * @param fileName file containing the team names
+     * @return returns with success flag or error message
+     */
+    public ModelFunctionSuccessResponse readTeamFile(String fileName)
     {
         //Read the raw textfile
-        ModelFunctionSuccessResponse result = fileManager.readTeamsFile(defaultTeamsFileName);
+        ModelFunctionSuccessResponse result = fileManager.readTeamsFile(fileName);
 
         if(result.success == false)
         {
@@ -36,7 +41,23 @@ public class Model
             return new ModelFunctionSuccessResponse();
         }
 
+    }
 
+    public ModelFunctionSuccessResponse readMatchResultFile(String fileName)
+    {
+        //Read the raw textfile
+        ModelFunctionSuccessResponse result = fileManager.readMatchResultsFile(fileName);
+
+        if(result.success == false)
+        {
+            return  result;
+        }
+        else
+        {
+            //Successful file reading. Process match results
+            tournament.processMatchResultsFile(fileManager.getMatchResultFileContent());
+            return result;
+        }
     }
 
     /**

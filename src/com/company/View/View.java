@@ -24,6 +24,8 @@ public class View extends JFrame implements ActionListener {
     JLabel totalMatches; //Displaying the total matches
     JButton nextButton; //Moving to the next step - CTA
 
+    int currentScreen = 1;
+
 
     /*
      Size and location configuration for the elements
@@ -78,7 +80,14 @@ public class View extends JFrame implements ActionListener {
         {
             withDrawEventHandler();
         }
+        //Check if user is about to navigate to the next screen
+        if(e.getSource() == nextButton)
+        {
+            nextScreenHandler();
+        }
     }
+
+
 
 
     public View(Controller ctr) {
@@ -261,7 +270,35 @@ public class View extends JFrame implements ActionListener {
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 
+    /**
+     * Handling when user clicks on the "next" button to navigate to the next screen.
+     */
+    private void nextScreenHandler()
+    {
+        if(currentScreen == 1)
+        {
+            currentScreen += 1;
+            navigateToSecondScreen();
+        }
+    }
 
+    /**
+     * Navigating to the second screen
+     */
+    private void navigateToSecondScreen()
+    {
+        //Change the title bar
+        titleBar.setText("Step 2/3: Provide match results");
+        //hide withdraw button
+        withDrawTeam.setVisible(false);
+        //hide list of teams
+        teamsList.setVisible(false);
+        //change title of the team's label
+        teamsListLabel.setText("Enter missing match results:");
+        //Change title of generated match results
+        matchesListLabel.setText("All matches:");
+
+    }
 
 
 }

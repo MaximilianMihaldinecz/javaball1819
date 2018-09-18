@@ -7,23 +7,46 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+/**
+ * Deals with reading and writing files
+ */
 public class FileManager
 {
     /* Contains the list of teams as strings read from the input file */
     ArrayList<String> teamsInputFileContent;
 
+    /* Contains the match results as read from the input file */
+    ArrayList<String> matchResultsFileContent;
+
 
     public FileManager()
     {
         teamsInputFileContent = new ArrayList<>();
+        matchResultsFileContent = new ArrayList<>();
     }
 
 
+    /**
+     * Reads in the match results file
+     * @param filename the file to read it from
+     * @return returns success confirmation or error message
+     */
+    public ModelFunctionSuccessResponse readMatchResultsFile(String filename)
+    {
+        ModelFunctionSuccessResponse result = readFile(filename, matchResultsFileContent);
+        return result;
+    }
 
-    public ModelFunctionSuccessResponse readTeamsFile(String fileName)
+    /**
+     * Reads a file into an arraylist of string
+     * @param fileName file to read
+     * @param destination arraylist of strings to read to
+     * @return success
+     */
+    private ModelFunctionSuccessResponse readFile(String fileName, ArrayList<String> destination)
     {
         ModelFunctionSuccessResponse result = new ModelFunctionSuccessResponse();
-        teamsInputFileContent = new ArrayList<>(); //Empty the current in-memory list
+        destination.clear();
 
         //Read in the file
         try
@@ -38,7 +61,7 @@ public class FileManager
                 x = bufferedReader.readLine();
                 if(x != null)
                 {
-                    teamsInputFileContent.add(x);
+                    destination.add(x);
                 }
             } while (x != null);
 
@@ -52,6 +75,18 @@ public class FileManager
             result.errormsg += "\n\n Details:\n" + e.getMessage();
             return result;
         }
+
+        return result;
+    }
+
+    /**
+     * Reads in the list of teams from file
+     * @param fileName file containing the list of teams
+     * @return success confirmation or error message. Also returns error if insufficient number of teams found
+     */
+    public ModelFunctionSuccessResponse readTeamsFile(String fileName)
+    {
+        ModelFunctionSuccessResponse result = readFile(fileName, teamsInputFileContent);
 
         //Check if we have sufficient number of teams
         if(teamsInputFileContent.size() < Configurations.MinimumNumberOfTeamsAllowed)
@@ -67,9 +102,15 @@ public class FileManager
         return result;
     }
 
+
     public ArrayList<String> getTeamsInputFileContent()
     {
         return teamsInputFileContent;
+    }
+
+    public ArrayList<String> getMatchResultFileContent()
+    {
+        return matchResultsFileContent;
     }
 
 }

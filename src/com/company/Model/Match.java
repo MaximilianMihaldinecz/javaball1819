@@ -34,6 +34,10 @@ public class Match {
     }
 
 
+    /**
+     * Returns the match as a line of text. Contains the team name and results (if available)
+     * @return
+     */
     public String toString()
     {
         String result = "";
@@ -83,6 +87,56 @@ public class Match {
 
         result += "</tr>";
         return result;
+    }
+
+    /**
+     * Returns true if name of the teams in this match equals to the input strings
+     * @param teamA first team's name
+     * @param teamB second team's name
+     * @return returns true if both team names match
+     */
+    public boolean hasTeams(String teamA, String teamB)
+    {
+        boolean result = false;
+        if(teams[0].equals(teamA) || teams[1].equals(teamA))
+            if(teams[0].equals(teamB) || teams[1].equals(teamB))
+                result = true;
+
+        return result;
+    }
+
+
+    /**
+     * Sets the scores for both of the teams. It assumes that the team names match correctly. Otherwise scores stay negative;
+     * @param teamA first team's name
+     * @param scoreA first team's score
+     * @param teamB second team's name
+     * @param scoreB second team's score
+     */
+    public void setScores(String teamA, int scoreA, String teamB, int scoreB)
+    {
+        isPlayed = true;
+
+        if(teams[0].equals(teamA))
+            scores[0] = scoreA;
+
+        if(teams[1].equals(teamA))
+            scores[1] = scoreA;
+
+        if(teams[0].equals(teamB))
+            scores[0] = scoreB;
+
+        if(teams[1].equals(teamB))
+            scores[1] = scoreB;
+    }
+
+    /**
+     * Returns read-only match information object
+     * @return Returns read-only match information object
+     */
+    public MatchInfo getMatchInfo()
+    {
+        return new MatchInfo(teams[0].getTeamName(), teams[1].getTeamName(), isPlayed, scores[0], scores[1]);
     }
 
 
