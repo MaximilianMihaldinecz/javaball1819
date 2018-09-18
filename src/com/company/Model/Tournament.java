@@ -53,8 +53,8 @@ public class Tournament {
             return;
 
 
-        for (int i = 0; i <  teams.size()-2; i++) {
-            for (int j = 0; j < teams.size()-1 ; j++) {
+        for (int i = 0; i <  teams.size()-1; i++) {
+            for (int j = i+1; j < teams.size() ; j++) {
 
                 matches.add(new Match(teams.get(i), teams.get(j)));
             }
@@ -128,6 +128,39 @@ public class Tournament {
                 break;
             }
         }
+        return result;
+    }
+
+    /**
+     * Returns number of matches between the teams
+     * @return number of matches
+     */
+    public int getNumberOfMatches()
+    {
+        if(matches == null)
+            return 0;
+
+        return matches.size();
+    }
+
+
+    /**
+     * Returns the matches between the teams as a string.
+     * The string contains the name of the teams and the results if available.
+     * Example: "TeamA VS TeamB (No results yet)"
+     * @return list of matches as string
+     */
+    public ArrayList<String> getMatchesAsString()
+    {
+        ArrayList<String> result = new ArrayList<>();
+        if(matches == null)
+            return result;
+
+        for (int i = 0; i < matches.size(); i++)
+        {
+            result.add(matches.get(i).toStringHTMLTable()) ;
+        }
+
         return result;
     }
 }

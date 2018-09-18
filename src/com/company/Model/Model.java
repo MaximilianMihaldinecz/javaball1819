@@ -66,4 +66,24 @@ public class Model
             return result;
         }
     }
+
+    /**
+     * Returns the number of matches in the turnament
+     * @return number of matches in the tournament
+     */
+    public int getNumberOfMatches()
+    {
+        return tournament.getNumberOfMatches();
+    }
+
+    /**
+     * Returns the matches between the teams as a string.
+     * The string contains the name of the teams and the results if available.
+     * Example: "TeamA VS TeamB (No results yet)"
+     * @return list of matches as string
+     */
+    public ArrayList<String> getResultsAsString()
+    {
+        return tournament.getMatchesAsString();
+    }
 }

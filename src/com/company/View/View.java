@@ -19,6 +19,10 @@ public class View extends JFrame implements ActionListener {
     DefaultListModel teamsListItems; //List of teams shown on the first screen
     JLabel teamsListLabel; //List of teams title label
     JButton withDrawTeam; //button to withdraw team on the first screen
+    JLabel matchesListLabel; //List of matches title label
+    JTextPane matchesList; //List of matches
+    JLabel totalMatches; //Displaying the total matches
+    JButton nextButton; //Moving to the next step - CTA
 
 
     /*
@@ -27,15 +31,19 @@ public class View extends JFrame implements ActionListener {
     final int X_Jframe = 10;
     final int Y_Jframe = 10;
     final int W_JFrame = 640;
-    final int H_JFrame = 600;
+    final int H_JFrame = 650;
     final int X_TitleBar = X_Jframe + 10;
     final int Y_TitleBar = Y_Jframe + 10;
     final int W_TitleBar = 600;
     final int H_TitleBar = 100;
+    final int W_nextButton = 150;
+    final int H_nextButton = 50;
+    final int X_nextButton = W_JFrame - (W_nextButton + 20);
+    final int Y_nextButton = H_JFrame - (H_nextButton + 30);
     //First form (screen) elements
     final int X_TeamsListLabel = X_TitleBar;
     final int Y_TeamsListLabel = Y_TitleBar + 130;
-    final int W_TeamListLabel = 300;
+    final int W_TeamListLabel = 250;
     final int H_TeamsListLabel = 30;
     final int X_TeamsList = X_TeamsListLabel;
     final int Y_TeamsList = Y_TeamsListLabel + H_TeamsListLabel + 10;
@@ -45,6 +53,19 @@ public class View extends JFrame implements ActionListener {
     final int Y_WithDrawButton = Y_TeamsList + H_TeamsList + 20;
     final int H_WithDrawButton = 30;
     final int W_WithDrawButton = W_TeamsList;
+    final int X_MatchesListLabel = X_TeamsListLabel + W_TeamListLabel + 50;
+    final int Y_MatchesListLabel = Y_TeamsListLabel;
+    final int W_MatchestListLabel = W_TeamListLabel + 50;
+    final int H_MatchesListLabel = H_TeamsListLabel;
+    final int X_MatchesList = X_MatchesListLabel;
+    final int Y_MatchesList = Y_TeamsList;
+    final int W_MatchesList = W_MatchestListLabel;
+    final int H_MatchesList = H_TeamsList;
+    final int X_totalMatchesLabel = X_MatchesListLabel;
+    final int Y_totalMatchesLabel = Y_WithDrawButton;
+    final int W_totalMatchesLabel = W_MatchestListLabel;
+    final int H_totalMatchesLabel = H_WithDrawButton;
+
 
 
 
@@ -91,6 +112,12 @@ public class View extends JFrame implements ActionListener {
         titleBar.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         this.add(titleBar);
 
+        //Create next step button
+        nextButton = new JButton("Next ->");
+        nextButton.setBounds(X_nextButton, Y_nextButton, W_nextButton, H_nextButton);
+        nextButton.setVisible(true);
+        nextButton.addActionListener(this);
+        this.add(nextButton);
 
         displayFirstForm();
     }
@@ -121,6 +148,30 @@ public class View extends JFrame implements ActionListener {
         withDrawTeam.setVisible(true);
         this.add(withDrawTeam);
         withDrawTeam.addActionListener(this);
+
+        //Create label for displaying matches
+        matchesListLabel = new JLabel("Generated matches:");
+        matchesListLabel.setBounds(X_MatchesListLabel, Y_MatchesListLabel, W_MatchestListLabel, H_MatchesListLabel);
+        matchesListLabel.setHorizontalAlignment(SwingConstants.HORIZONTAL);
+        matchesListLabel.setFont(new Font("Serif", Font.PLAIN, 18));
+        matchesListLabel.setVisible(true);
+        this.add(matchesListLabel);
+
+        //Create textarea displaying the generated list of matches
+        matchesList = new JTextPane();
+        matchesList.setContentType("text/html");
+        matchesList.setEditable(false);
+        matchesList.setBounds(X_MatchesList, Y_MatchesList, W_MatchesList, H_MatchesList);
+        matchesList.setVisible(true);
+        this.add(matchesList);
+
+        //Create label displaying the total number of generated matches
+        totalMatches = new JLabel("Total matches: ");
+        totalMatches.setBounds(X_totalMatchesLabel, Y_totalMatchesLabel, W_totalMatchesLabel, H_totalMatchesLabel);
+        totalMatches.setFont(new Font("Serif", Font.PLAIN, 18));
+        totalMatches.setHorizontalAlignment(SwingConstants.HORIZONTAL);
+        totalMatches.setVisible(true);
+        this.add(totalMatches);
 
 
         this.repaint();
@@ -177,6 +228,31 @@ public class View extends JFrame implements ActionListener {
     }
 
     /**
+     * Updates the number of matches shown in the label (first screen)
+     * @param numberOfMatches number of matches between the teams
+     */
+    public void refreshTotalMatchCount(int numberOfMatches)
+    {
+        totalMatches.setText("Total matches: " + Integer.toString(numberOfMatches));
+    }
+
+    /**
+     * Reloads the list of matches on the GUI (first screen)
+     * @param matches the text version of a test with or without results
+     */
+    public void refreshMatchList(ArrayList<String> matches)
+    {
+        String result = "<html><table>";
+
+        for (int i = 0; i < matches.size(); i++) {
+            result +=  matches.get(i) + "<br>";
+        }
+
+        result += "</table>";
+        matchesList.setText(result);
+    }
+
+    /**
      * Close down the frame
      */
     public void close()
@@ -184,6 +260,7 @@ public class View extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
+
 
 
 

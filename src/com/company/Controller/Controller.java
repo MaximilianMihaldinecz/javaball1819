@@ -36,6 +36,11 @@ public class Controller {
        //Display the list of teams on the GUI
         view.refreshTeamsList(model.getListOfTeamNames());
 
+       //Display the number of matches on the GUI;
+        view.refreshTotalMatchCount(model.getNumberOfMatches());
+
+        //Display matches
+        view.refreshMatchList(model.getResultsAsString());
     }
 
     public void userRequestsTeamWithDrawal(String teamName)
@@ -51,6 +56,8 @@ public class Controller {
         {
             //Successful removal. Updating the list on the GUI.
             view.refreshTeamsList(model.getListOfTeamNames());
+            view.refreshTotalMatchCount(model.getNumberOfMatches());
+            view.refreshMatchList(model.getResultsAsString());
         }
     }
 
