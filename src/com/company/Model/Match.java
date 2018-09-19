@@ -98,8 +98,8 @@ public class Match {
     public boolean hasTeams(String teamA, String teamB)
     {
         boolean result = false;
-        if(teams[0].equals(teamA) || teams[1].equals(teamA))
-            if(teams[0].equals(teamB) || teams[1].equals(teamB))
+        if(teams[0].getTeamName().equals(teamA) || teams[1].getTeamName().equals(teamA))
+            if(teams[0].getTeamName().equals(teamB) || teams[1].getTeamName().equals(teamB))
                 result = true;
 
         return result;
@@ -117,26 +117,27 @@ public class Match {
     {
         isPlayed = true;
 
-        if(teams[0].equals(teamA))
+        if(teams[0].getTeamName().equals(teamA))
             scores[0] = scoreA;
 
-        if(teams[1].equals(teamA))
+        if(teams[1].getTeamName().equals(teamA))
             scores[1] = scoreA;
 
-        if(teams[0].equals(teamB))
+        if(teams[0].getTeamName().equals(teamB))
             scores[0] = scoreB;
 
-        if(teams[1].equals(teamB))
+        if(teams[1].getTeamName().equals(teamB))
             scores[1] = scoreB;
     }
 
     /**
-     * Returns read-only match information object
-     * @return Returns read-only match information object
+     * Returns the name of the two teams in the match
+     * @return the name of the teams in the match
      */
-    public MatchInfo getMatchInfo()
+    public String[] getTeamNames()
     {
-        return new MatchInfo(teams[0].getTeamName(), teams[1].getTeamName(), isPlayed, scores[0], scores[1]);
+        String[] result = new String[]{teams[0].getTeamName(), teams[1].getTeamName()};
+        return result;
     }
 
 

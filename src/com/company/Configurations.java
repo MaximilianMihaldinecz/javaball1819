@@ -19,6 +19,8 @@ public class Configurations {
     public static final String Error_SelectTeamFromList = "Please select a team to withdraw.";
     public static final String Error_CantFindTeamName = "Cannot find the team with such name: ";
     public static final String Error_NotEnoughTeams = "Not enough team remained to play the tournament. Minimum teams should be: ";
+    public static final String Error_NoMatchesToUpdate = "All the matches updated with scores. We now skip to step 3.";
+    public static final String Error_CouldNotUpdateScore = "Could not update the score for this match. Exiting the program now.";
 
 
 }

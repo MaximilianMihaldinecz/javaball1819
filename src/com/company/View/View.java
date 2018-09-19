@@ -23,8 +23,14 @@ public class View extends JFrame implements ActionListener {
     JTextPane matchesList; //List of matches
     JLabel totalMatches; //Displaying the total matches
     JButton nextButton; //Moving to the next step - CTA
+    JLabel editedMatchLabel; //Display the title of the currently edited match result
+    JButton nextEditMatchButton; //Button to navigate to the next editable match result
+    JComboBox teamAScoreList; //User input for teamA's score in match
+    JComboBox teamBScoreList; //User input for teamB's score in match
 
-    int currentScreen = 1;
+
+    int currentScreen = 1; //The ID of the form/screen the user is currently on
+    String[] currentlyEditedMatch = new String[]{"",""}; //Contains team names for a match that's currently edited
 
 
     /*
@@ -67,6 +73,26 @@ public class View extends JFrame implements ActionListener {
     final int Y_totalMatchesLabel = Y_WithDrawButton;
     final int W_totalMatchesLabel = W_MatchestListLabel;
     final int H_totalMatchesLabel = H_WithDrawButton;
+    //Second form (screen) elements
+    final int X_editedMatchLabel = X_TeamsListLabel;
+    final int Y_editedMatchLabel = Y_TeamsListLabel + 50;
+    final int W_editedMatchLabel = W_TeamListLabel;
+    final int H_editedMatchLabel = 20;
+    final int X_teamAScoreList = X_editedMatchLabel;
+    final int Y_teamAScoreList = Y_editedMatchLabel + H_editedMatchLabel + 20;
+    final int H_teamAScoreList = 20;
+    final int W_teamAScoreList = ((W_editedMatchLabel / 2) - 5);
+    final int X_teamBScoreList = X_teamAScoreList + W_teamAScoreList + 10;
+    final int Y_teamBScoreList = Y_teamAScoreList;
+    final int W_teamBScoreList = W_teamAScoreList;
+    final int H_teamBScoreList = H_teamAScoreList;
+    final int W_nextEditMatchButton = 180;
+    final int X_nextEditMatchButton = X_editedMatchLabel + W_editedMatchLabel - W_nextEditMatchButton;
+    final int Y_nextEditMatchButton = Y_teamBScoreList + 50;
+    final int H_nextEditMatchButton = 30;
+
+
+
 
 
 
@@ -84,6 +110,10 @@ public class View extends JFrame implements ActionListener {
         if(e.getSource() == nextButton)
         {
             nextScreenHandler();
+        }
+        if(e.getSource() == nextEditMatchButton)
+        {
+            handleNextEditMatchButtonPressed();
         }
     }
 
@@ -207,16 +237,22 @@ public class View extends JFrame implements ActionListener {
      * Displays an error message to the user
      * @param msg The error message to display to the user
      * @param exitWarning If true, the user will be notified that the program will exit now.
+     * @param errorTitle If false, the messagebox won't have a title. If true, it will show "Error" in title.
      */
-    public void displayErrorMessage(String msg, boolean exitWarning)
+    public void displayErrorMessage(String msg, boolean exitWarning, boolean errorTitle)
     {
+        String title = "";
+        if(errorTitle)
+            title = "Error";
+
+
         if(exitWarning == false)
         {
-            JOptionPane.showMessageDialog(null,msg,"Error",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,msg,title,JOptionPane.INFORMATION_MESSAGE);
         }
         else
         {
-            JOptionPane.showMessageDialog(null,msg + "\n\n" + Configurations.Error_ProgramWillExit,"Error",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,msg + "\n\n" + Configurations.Error_ProgramWillExit,title,JOptionPane.INFORMATION_MESSAGE);
         }
 
     }
@@ -229,7 +265,7 @@ public class View extends JFrame implements ActionListener {
         //Check if a team was selected from the list
         if(teamsList.getSelectedValue() == null)
         {
-            displayErrorMessage(Configurations.Error_SelectTeamFromList, false);
+            displayErrorMessage(Configurations.Error_SelectTeamFromList, false, true);
         }else {
             Ctr.userRequestsTeamWithDrawal(teamsList.getSelectedValue().toString());
         }
@@ -273,12 +309,45 @@ public class View extends JFrame implements ActionListener {
     /**
      * Handling when user clicks on the "next" button to navigate to the next screen.
      */
-    private void nextScreenHandler()
+    public void nextScreenHandler()
     {
         if(currentScreen == 1)
         {
             currentScreen += 1;
             navigateToSecondScreen();
+            Ctr.userNavigatedToSecondScreen();
+        }
+        else
+        {
+            if(currentScreen == 2)
+            {
+                currentScreen = 3;
+                navigateToThirdScreen();
+            }
+        }
+
+    }
+
+    /**
+     * Navigating to the third (last) screen)
+     */
+    private void navigateToThirdScreen()
+    {
+        /* TODO */
+
+    }
+
+    /**
+     * Updates the number of remaining matches user needs to provide results for
+     * @param count number of remaining matches
+     */
+    public void updateRemainingMatchesToFill(int count)
+    {
+        teamsListLabel.setText("Enter missing match results (" + Integer.toString(count) + "):");
+
+        if(count == 1)
+        {
+            nextEditMatchButton.setText("Save & Show ranking");
         }
     }
 
@@ -297,8 +366,75 @@ public class View extends JFrame implements ActionListener {
         teamsListLabel.setText("Enter missing match results:");
         //Change title of generated match results
         matchesListLabel.setText("All matches:");
+        //Disable next button
+        nextButton.setVisible(false);
+
+
+        //Create label showing currently edited match
+        editedMatchLabel = new JLabel(" ");
+        editedMatchLabel.setBounds(X_editedMatchLabel, Y_editedMatchLabel, W_editedMatchLabel, H_editedMatchLabel);
+        editedMatchLabel.setHorizontalAlignment(SwingConstants.HORIZONTAL);
+        editedMatchLabel.setFont(new Font("Serif", Font.PLAIN, 14));
+        editedMatchLabel.setVisible(true);
+        this.add(editedMatchLabel);
+
+        //Create button to navigate to the next editable match
+        nextEditMatchButton = new JButton("Next match");
+        nextEditMatchButton.setBounds(X_nextEditMatchButton, Y_nextEditMatchButton, W_nextEditMatchButton, H_nextEditMatchButton);
+        nextEditMatchButton.setVisible(true);
+        this.add(nextEditMatchButton);
+        nextEditMatchButton.addActionListener(this);
+
+
+        //Listbox for teamA
+        teamAScoreList = new JComboBox(new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"} );
+        teamAScoreList.setBounds(X_teamAScoreList, Y_teamAScoreList, W_teamAScoreList, H_teamAScoreList);
+        teamAScoreList.setVisible(true);
+        this.add(teamAScoreList);
+
+        //Listbox for teamB
+        teamBScoreList = new JComboBox(new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"} );
+        teamBScoreList.setBounds(X_teamBScoreList, Y_teamBScoreList, W_teamBScoreList, H_teamBScoreList);
+        teamBScoreList.setVisible(true);
+        this.add(teamBScoreList);
 
     }
 
 
+    /**
+     * Updates the currently edited match results' title
+     * @param nextMatchWithoutScore String array with two items. Each item is a name of a team.
+     */
+    public void updateNextMatchLabel(String[] nextMatchWithoutScore)
+    {
+        editedMatchLabel.setText(nextMatchWithoutScore[0] + " VS " + nextMatchWithoutScore[1]);
+        currentlyEditedMatch = nextMatchWithoutScore;
+    }
+
+
+    /**
+     * Handle the event on UI level when user presses the "edit next match score" button
+     */
+    private void handleNextEditMatchButtonPressed()
+    {
+        int[] scores = new int[]{Integer.parseInt(teamAScoreList.getSelectedItem().toString()),
+                Integer.parseInt(teamBScoreList.getSelectedItem().toString())};
+
+        Ctr.userSavesScores(currentlyEditedMatch, scores);
+
+    }
+
+    /**
+     * Called after all the match scores supplied but the user is not moved to the last screen.
+     * This method hides UI inputs related to scores, as there is no more data needed to be entered.
+     */
+    public void prepareForLastScreen()
+    {
+        editedMatchLabel.setVisible(false);
+        teamAScoreList.setVisible(false);
+        teamBScoreList.setVisible(false);
+        teamsListLabel.setVisible(false);
+        nextEditMatchButton.setVisible(false);
+
+    }
 }

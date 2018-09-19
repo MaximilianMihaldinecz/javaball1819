@@ -165,6 +165,10 @@ public class Tournament {
     }
 
 
+    /**
+     * Takes the content of a match results file and updates the match result stored in memory
+     * @param rawFile each element contains a line from the matches file
+     */
     public void processMatchResultsFile(ArrayList<String> rawFile)
     {
         if(rawFile == null)
@@ -178,6 +182,26 @@ public class Tournament {
                 updateMatchScore(splitted[0], Integer.parseInt(splitted[1]), splitted[2], Integer.parseInt(splitted[3]));
             }
         }
+    }
+
+    /**
+     * Calculates the number of matches which do not have results yet
+     * @return Number of matches that have no result
+     */
+    public int getNumberOfMatchesWithoutResult()
+    {
+        int counter = 0;
+
+        if(matches == null)
+            return counter;
+
+        for (int i = 0; i < matches.size() ; i++) {
+            if(matches.get(i).isPlayed == false)
+            {
+                counter++;
+            }
+        }
+        return counter;
     }
 
     /**
@@ -219,6 +243,25 @@ public class Tournament {
             }
         }
         return result;
+    }
+
+    /**
+     * @return returns the name of the two teams in a match which has no result.
+     * Always returns one match in total (array of two items). Returns null if all matches have scores.
+     */
+    public String[] getNextMatchWithoutScore()
+    {
+        if(matches == null)
+            return null;
+
+        String[] result = null;
+        for (int i = 0; i < matches.size() ; i++) {
+            if(matches.get(i).isPlayed == false){
+                result = matches.get(i).getTeamNames();
+                break;
+            }
+        }
+        return  result;
     }
 
 

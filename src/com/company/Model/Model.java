@@ -89,6 +89,25 @@ public class Model
     }
 
     /**
+     * Calculates the number of matches which do not have results yet
+     * @return Number of matches that have no result
+     */
+    public int getNumberOfMatchesWithoutResult()
+    {
+        return tournament.getNumberOfMatchesWithoutResult();
+    }
+
+
+    /**
+     * @return returns the name of the two teams in a match which has no result.
+     * Always returns one match in total (array of two items). Returns null if all matches have scores.
+     */
+    public String[] getNextMatchWithoutScore()
+    {
+        return tournament.getNextMatchWithoutScore();
+    }
+
+    /**
      * Returns the number of matches in the turnament
      * @return number of matches in the tournament
      */
@@ -106,5 +125,17 @@ public class Model
     public ArrayList<String> getResultsAsString()
     {
         return tournament.getMatchesAsString();
+    }
+
+    /**
+     * Updates the score of a match
+     * @param currentlyEditedMatch array of 2 items. each item is a name of a team
+     * @param scores score for each team. array of 2 items
+     * @return success if update is complete. error if could not update.
+     */
+    public boolean updateMatchScore(String[] currentlyEditedMatch, int[] scores)
+    {
+        boolean b = tournament.updateMatchScore(currentlyEditedMatch[0], scores[0], currentlyEditedMatch[1], scores[1]);
+        return b;
     }
 }
