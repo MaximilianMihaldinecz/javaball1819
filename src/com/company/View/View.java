@@ -27,6 +27,9 @@ public class View extends JFrame implements ActionListener {
     JButton nextEditMatchButton; //Button to navigate to the next editable match result
     JComboBox teamAScoreList; //User input for teamA's score in match
     JComboBox teamBScoreList; //User input for teamB's score in match
+    JTextPane statsPanel; //Tournament statistics displayed here
+    JButton saveAndExitButton; //User saves the result to file and exits the program with this button
+
 
 
     int currentScreen = 1; //The ID of the form/screen the user is currently on
@@ -90,6 +93,15 @@ public class View extends JFrame implements ActionListener {
     final int X_nextEditMatchButton = X_editedMatchLabel + W_editedMatchLabel - W_nextEditMatchButton;
     final int Y_nextEditMatchButton = Y_teamBScoreList + 50;
     final int H_nextEditMatchButton = 30;
+    //Third form (screen) elements
+    final int X_statsPanel = X_TitleBar;
+    final int Y_statsPanel = Y_TitleBar + H_TitleBar + 20;
+    final int H_statsPanel = H_JFrame - (Y_statsPanel + 70);
+    final int W_statsPanel = W_TitleBar;
+    final int W_saveAndExitButton = 200;
+    final int H_saveAndExitButton = 40;
+    final int X_saveAndExitButton = (W_JFrame / 2) - (W_saveAndExitButton / 2);
+    final int Y_saveAndExitButton = (H_JFrame - H_saveAndExitButton) - 25;
 
 
 
@@ -333,7 +345,31 @@ public class View extends JFrame implements ActionListener {
      */
     private void navigateToThirdScreen()
     {
-        /* TODO */
+        //Hide items from the second screen
+        teamsList.setVisible(false);
+        totalMatches.setVisible(false);
+        teamsListLabel.setVisible(false);
+        matchesListLabel.setVisible(false);
+        matchesList.setVisible(false);
+
+        //Change main title
+        titleBar.setText("Step 3/3: View tournament statistics");
+
+        //Create textpane to display the results
+        statsPanel =  new JTextPane();
+        statsPanel.setContentType("text/html");
+        statsPanel.setEditable(false);
+        statsPanel.setBounds(X_statsPanel, Y_statsPanel, W_statsPanel, H_statsPanel);
+        statsPanel.setVisible(true);
+        this.add(statsPanel);
+
+
+        //Create the save and exit button
+        saveAndExitButton = new JButton("Save to file & Exit");
+        saveAndExitButton.setBounds(X_saveAndExitButton, Y_saveAndExitButton, W_saveAndExitButton, H_saveAndExitButton);
+        saveAndExitButton.setVisible(true);
+        this.add(saveAndExitButton);
+        saveAndExitButton.addActionListener(this);
 
     }
 
