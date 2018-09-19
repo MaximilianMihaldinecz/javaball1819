@@ -2,9 +2,7 @@ package com.company.Model;
 
 import com.company.Configurations;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -113,4 +111,41 @@ public class FileManager
         return matchResultsFileContent;
     }
 
+
+
+    /**
+     * Writes the content parameter to the output file
+     * @param content the list of texts to write into file
+     * @param fileName the filename to use
+     * @return returns error if occured or success message
+     */
+    public ModelFunctionSuccessResponse writeToFile(ArrayList<String> content, String fileName)
+    {
+        ModelFunctionSuccessResponse result = new ModelFunctionSuccessResponse();
+
+
+        try
+        {
+            File file = new File(fileName);
+            FileWriter fileWriter = new FileWriter(file, false);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            for (int i = 0; i < content.size() ; i++) {
+                bufferedWriter.write(content.get(i)+"\n");
+            }
+
+            bufferedWriter.flush();
+            bufferedWriter.close();
+            fileWriter.close();
+
+        } catch (Exception e)
+        {
+            result.success = false;
+            result.errormsg = Configurations.Error_FileWrite + fileName;
+            result.errormsg += "\n\n Details:\n" + e.getMessage();
+            return result;
+        }
+
+        return result;
+    }
 }

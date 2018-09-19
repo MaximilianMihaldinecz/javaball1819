@@ -309,6 +309,39 @@ public class Tournament {
         return result;
     }
 
+    /**
+     * Returns the stats table in txt format. Columns divided by tabs.
+     * @return each list item represents a line in a textfile
+     */
+    public ArrayList<String> getTournamentEndStatsTxt()
+    {
+        ArrayList<String> result = new ArrayList<>();
+
+        String header =
+                new StringBuilder()
+                        .append("Team\t")
+                        .append("Rank\t")
+                        .append("Matches Won\t")
+                        .append("Matches Drawn\t")
+                        .append("Matches Lost\t")
+                        .append("Goals For\t")
+                        .append("Goals Against\t")
+                        .append("Match Points\t")
+                        .append("Goal Diff\t")
+                        .append("Medal")
+                        .toString();
+
+
+        result.add(header);
+
+        for (int i = 0; i < teams.size() ; i++)
+        {
+            result.add(teams.get(i).getAsTxt());
+        }
+
+        return result;
+    }
+
 
     /**
      * Calculates the result of the tournament and ranks the teams

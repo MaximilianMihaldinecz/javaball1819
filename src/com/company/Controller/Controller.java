@@ -148,6 +148,24 @@ public class Controller {
      */
     public ArrayList<String> getTournamentEndStats()
     {
-        return model.getTournamentEndStats();
+        return model.getTournamentEndStats(true);
+    }
+
+
+    public void userRequestsSaveAndExit()
+    {
+        ModelFunctionSuccessResponse result = model.saveResultToFile(model.getTournamentEndStats(false),
+                Configurations.DefaultMatchResultsOutputFilename);
+
+        if(result.success == false)
+        {
+            view.displayErrorMessage(Configurations.Error_CouldNotWriteFile + result.errormsg, true, true);
+            exitProgram();
+        }
+        else
+        {
+            view.displayErrorMessage(Configurations.Success_FileWrite, true, false);
+            exitProgram();
+        }
     }
 }

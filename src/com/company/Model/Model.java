@@ -141,10 +141,33 @@ public class Model
 
     /**
      * Gets the final tournament statistics
+     * @param isHtmlFormat if true, returs result in html format. Otherwise as tab seperated text.
      * @return a list of text, each item is a row
      */
-    public ArrayList<String> getTournamentEndStats()
+    public ArrayList<String> getTournamentEndStats(boolean isHtmlFormat)
     {
-        return tournament.getTournamentEndStatsHTML();
+        if(isHtmlFormat == true)
+        {
+            return tournament.getTournamentEndStatsHTML();
+        }
+        else
+        {
+            return tournament.getTournamentEndStatsTxt();
+        }
+
     }
+
+
+    /**
+     * Writes the content parameter to the output file
+     * @param content the list of texts to write into file
+     * @param outputFileName the filename to use
+     * @return returns error if occured or success message
+     */
+    public ModelFunctionSuccessResponse saveResultToFile(ArrayList<String> content, String outputFileName)
+    {
+        return  fileManager.writeToFile(content, outputFileName);
+    }
+
+
 }

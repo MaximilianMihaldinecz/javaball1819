@@ -152,4 +152,23 @@ public class Team implements Comparable<Team>
         result += "</tr>";
         return result;
     }
+
+    public String getAsTxt()
+    {
+        String result = "";
+
+        result += TeamName + "\t";
+        result += Integer.toString(rank) + "\t";
+        result += Integer.toString(matchWon) + "\t";
+        result += Integer.toString(matchDrawn) + "\t";
+        result += Integer.toString(matchLost) + "\t";
+        result += Integer.toString(goalsFor) + "\t";
+        result += Integer.toString(goalsAgainst) + "\t";
+        result += Integer.toString(getMatchPoints()) + "\t";
+        result += Integer.toString(getGoalsDiff()) + "\t";
+        result += medal;
+
+
+        return result;
+    }
 }

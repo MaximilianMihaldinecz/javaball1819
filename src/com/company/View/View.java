@@ -125,6 +125,10 @@ public class View extends JFrame implements ActionListener {
         {
             handleNextEditMatchButtonPressed();
         }
+        if(e.getSource() == saveAndExitButton)
+        {
+            handleFinalSaveAndExit();
+        }
     }
 
 
@@ -482,5 +486,13 @@ public class View extends JFrame implements ActionListener {
         teamsListLabel.setVisible(false);
         nextEditMatchButton.setVisible(false);
 
+    }
+
+    /**
+     * Handles when user clicks on "save to file and exit" button on the last screen.
+     */
+    private void handleFinalSaveAndExit()
+    {
+        Ctr.userRequestsSaveAndExit();
     }
 }
