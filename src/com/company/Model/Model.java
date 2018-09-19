@@ -138,4 +138,13 @@ public class Model
         boolean b = tournament.updateMatchScore(currentlyEditedMatch[0], scores[0], currentlyEditedMatch[1], scores[1]);
         return b;
     }
+
+    /**
+     * Gets the final tournament statistics
+     * @return a list of text, each item is a row
+     */
+    public ArrayList<String> getTournamentEndStats()
+    {
+        return tournament.getTournamentEndStatsHTML();
+    }
 }

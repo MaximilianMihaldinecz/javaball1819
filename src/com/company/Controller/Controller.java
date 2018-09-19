@@ -5,6 +5,8 @@ import com.company.Model.Model;
 import com.company.Model.ModelFunctionSuccessResponse;
 import com.company.View.View;
 
+import java.util.ArrayList;
+
 public class Controller {
 
     View view;
@@ -138,5 +140,14 @@ public class Controller {
             view.updateNextMatchLabel(model.getNextMatchWithoutScore());
         }
 
+    }
+
+    /**
+     * Gets the final tournament statistics
+     * @return a list of text, each item is a row
+     */
+    public ArrayList<String> getTournamentEndStats()
+    {
+        return model.getTournamentEndStats();
     }
 }

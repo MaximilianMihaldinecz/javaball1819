@@ -3,7 +3,10 @@ package com.company.Model;
 import com.company.Configurations;
 import sun.awt.ConstrainableGraphics;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Represents a tournament with matches and teams
@@ -265,7 +268,100 @@ public class Tournament {
     }
 
 
+    /**
+     *
+     * @return returns the stats table in HTML format
+     */
+    public ArrayList<String> getTournamentEndStatsHTML()
+    {
+        calculateTournamentResults();
+
+        ArrayList<String> result = new ArrayList<>();
 
 
+        //Add Header
+        String header =
+                new StringBuilder()
+                        .append("<table border=1><tr>")
+                        .append("<th>Team</th>")
+                        .append("<th>Rank</th>")
+                        .append("<th>Matches Won</th>")
+                        .append("<th>Matches Drawn</th>")
+                        .append("<th>Matches Lost</th>")
+                        .append("<th>Goals For</th>")
+                        .append("<th>Goals Against</th>")
+                        .append("<th>Match Points</th>")
+                        .append("<th>Goal Diff</th>")
+                        .append("<th>Medal</th>")
+                        .append("</tr>").toString();
+
+
+        result.add(header);
+        //Getting team results row by by
+        for (int i = 0; i < teams.size() ; i++)
+        {
+            result.add(teams.get(i).getAsHTML());
+        }
+
+        //Close table
+        result.add("</table>");
+
+        return result;
+    }
+
+
+    /**
+     * Calculates the result of the tournament and ranks the teams
+     */
+    private void calculateTournamentResults()
+    {
+        if(matches == null)
+            return;
+
+        //Populate each team with match data
+        for (int i = 0; i < matches.size() ; i++)
+        {
+            matches.get(i).populateTeamsWithData();
+        }
+
+        //rank teams
+        rankTeams();
+    }
+
+    /**
+     * Team ranking based on Match Points (primary rank) and Goal difference (secondary rank)
+     * Ranking data is added to the team objects.
+     */
+    private void rankTeams()
+    {
+        Collections.sort(teams);
+        int currentRank = 1;
+
+        for (int i = 0; i < teams.size() ; i++)
+        {
+            //last iteration will always get the current rank
+            if(i == teams.size()-1)
+            {
+                teams.get(i).setRank(currentRank);
+                break;
+            }
+
+            //If the next team in the order has lower value then we increment the rank
+            if(teams.get(i).compareTo(teams.get(i+1)) < 0 )
+            {
+                teams.get(i).setRank(currentRank);
+                currentRank++;
+            }
+
+            //If the next team has the same value then they will share the rank
+            if(teams.get(i).compareTo(teams.get(i+1)) == 0 )
+            {
+                teams.get(i).setRank(currentRank);
+            }
+
+        }
+
+
+    }
 
 }

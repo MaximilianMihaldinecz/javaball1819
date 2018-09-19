@@ -141,4 +141,15 @@ public class Match {
     }
 
 
+    /**
+     * Adds the match data to the team's tracked stats
+     */
+    public void populateTeamsWithData()
+    {
+        if(isPlayed == true)
+        {
+            teams[0].addMatchResult(scores[0], scores[1]);
+            teams[1].addMatchResult(scores[1], scores[0]);
+        }
+    }
 }

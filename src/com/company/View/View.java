@@ -34,6 +34,7 @@ public class View extends JFrame implements ActionListener {
 
     int currentScreen = 1; //The ID of the form/screen the user is currently on
     String[] currentlyEditedMatch = new String[]{"",""}; //Contains team names for a match that's currently edited
+    ArrayList<String> tournamentStatsText = new ArrayList<>(); //Contains the end statistics as text to display
 
 
     /*
@@ -102,9 +103,6 @@ public class View extends JFrame implements ActionListener {
     final int H_saveAndExitButton = 40;
     final int X_saveAndExitButton = (W_JFrame / 2) - (W_saveAndExitButton / 2);
     final int Y_saveAndExitButton = (H_JFrame - H_saveAndExitButton) - 25;
-
-
-
 
 
 
@@ -371,6 +369,18 @@ public class View extends JFrame implements ActionListener {
         this.add(saveAndExitButton);
         saveAndExitButton.addActionListener(this);
 
+        //Getting the tournamenet data text and displaying it
+        tournamentStatsText = Ctr.getTournamentEndStats();
+        String statsText = "<html><body style=\"font-size:14\">";
+        if(tournamentStatsText != null)
+        {
+            for (int i = 0; i < tournamentStatsText.size(); i++)
+            {
+                statsText += tournamentStatsText.get(i);
+            }
+        }
+        statsText += "</html>";
+        statsPanel.setText(statsText);
     }
 
     /**
