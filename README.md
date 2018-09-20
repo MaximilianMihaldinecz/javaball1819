@@ -49,15 +49,9 @@ The favourite sport in the country of Hibernia is the team game JavaBall. You ar
       that two or more teams have equal points and equal goal difference. In the example
       below, both Bournevale and Park have rank 2, whilst the next team, Park, has rank 4.
     - the top teams are allocated medals, namely Gold, Silver and Bronze, as follows: the top-ranked team (or group of teams) are awarded Gold, the second-top-ranked team/s are awarded Silver, whilst the third-top-ranked team/s are awarded Bronze, as in the example below.
-    |Team|Rank|Matches Won|Matches Drawn|Matches Lost|Goals For|Goals Against|Match points|Points Diff| Medal|
-    |:---|:--:|:---------:|:-----------:|:----------:|:-------:|:-----------:|:----------:|:---------:|:----:|
-    |Hillend| 1| 3| 2| 0| 19| 12| 11| 7| Gold|
-    |Bournevale| 2| 1| 4 |0 |9| 6| 7| 3| Silver|
-    |Park| 2| 2| 1| 2| 12| 9| 7| 3| Silver|
-    |Abbey| 4| 2| 1| 2| 6| 8| 7| -2| Bronze|
-    |Ford| 5| 0| 4| 1| 9| 14| 4| -5|
-    |Cragfoot| 6| 0| 2| 3| 6| 12| 2| -6|
-
+    
+    *SEE ResultsOut.txt for example*
+    
 8. There should be an ‘exit’ button. When this button is clicked, the text area display should be written to an output text file called ResultsOut.txt. That is, if the results have not yet been processed, ResultsOut.txt should contain a list of the matches together with the results that have been entered so far. Otherwise ResultsOut.txt should contain the ranked table as illustrate above. After producing the output file, the program should terminate. To ensure that the user cannot exit the program without creating the output file, the normal close button of the main GUI frame should be disabled.
 
 
