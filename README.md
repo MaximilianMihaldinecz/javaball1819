@@ -57,3 +57,8 @@ The favourite sport in the country of Hibernia is the team game JavaBall. You ar
 
 *NOTES ON TEXT FILES*
 After submission your program will be tested, so it is particularly important that your file- handling within the program does NOT refer to the absolute location of your text files. When testing your program within Eclipse, store your data files in the current working directory (i.e., the same one that contains your Java program). Please do NOT use JFileChooser: it is too time-consuming when testing your program!
+
+### Screenshots
+![Step 1](screenshots/step1.png)
+![Step 1](screenshots/step2.png)
+![Step 1](screenshots/step3.png)
