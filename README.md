@@ -2,11 +2,11 @@
 University of Glasgow's Java practice exercise for MSc students at Data Science, Computer Science, and Information Security courses (2018-2019).
 
 ## Specification
-###Scenario 
+### Scenario 
 
 The favourite sport in the country of Hibernia is the team game JavaBall. You are to produce a program that manages and processes results of JavaBall matches in a given tournament.
 
-###Functionality
+### Functionality
 1. The functionality of the program should be accessed by a GUI. You are free to design this as you choose, using one or more windows.
 2. A text file giving the names of the teams taking part in the JavaBall tournament should be read in automatically at the start of the program. The text file, TeamsIn.txt, contains one team name per line, and will contain between 4 and 8 teams. Team names are never more than 10 characters long, and will not contain spaces. Team names are listed in the file in an arbitrary order, however you may assume that the file contains valid data. If the text file is not found, the program should display an appropriate message and then terminate. For an example of a possible TeamsIn.txt file, see the appendix.
 3. Each team will play every other team exactly once. As part of the initialisation, the program should produce a list of all the matches and display this in a text area, indicating that as yet there are no results. For the match display, the matches and the teams should be in alphabetical order of the first team name, and within the match list, matches with equal first team should be broken alphabetically on the second team name. For example:
