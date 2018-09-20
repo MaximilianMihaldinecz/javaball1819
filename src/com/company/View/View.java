@@ -301,7 +301,7 @@ public class View extends JFrame implements ActionListener {
      */
     public void refreshMatchList(ArrayList<String> matches)
     {
-        String result = "<html><table>";
+        String result = "<html><body style=\"font-size:10\"><table>";
 
         for (int i = 0; i < matches.size(); i++) {
             result +=  matches.get(i) + "<br>";
